@@ -185,6 +185,78 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertFalse(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
 
+    //CT5
+    @Test
+    public void testShouldChangesRequireResponseDeletion_DifferentSizeDifferentChoices_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice2”, “choice3”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    //CT6
+    @Test
+    public void testShouldChangesRequireResponseDeletion_NewChoiceAdded_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice1”, “choice2”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    //CT7
+    @Test
+    public void testShouldChangesRequireResponseDeletion_NewDuplicateChoiceAdded_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice1”, “choice1”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    //CT8
+    @Test
+    public void testShouldChangesRequireResponseDeletion_ChoiceDeleted_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”, “choice2”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice1”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    //CT9
+    @Test
+    public void testShouldChangesRequireResponseDeletion_DifferentChoiceReplacedForDuplicate_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”, “choice2”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice1”, “choice1”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    //CT10
+    @Test
+    public void testShouldChangesRequireResponseDeletion_DuplicateChoiceReplacedForDifferentCoice_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of(“choice1”, “choice1”));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of(“choice1”, “choice2”));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
     @Test
     public void testValidateResponsesDetails_answerNotPartOfMcq_shouldReturnError() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
